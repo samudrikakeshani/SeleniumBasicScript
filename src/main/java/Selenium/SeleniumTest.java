@@ -37,5 +37,6 @@ public void login()
 public void tearDown()
 {
 	driver.close();
+	driver.quit();
 }
 }
