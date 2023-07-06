@@ -7,12 +7,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class SeleniumTest {
 	
 WebDriver driver;
+SoftAssert sa;
 
 @BeforeTest
 
@@ -22,6 +24,7 @@ public void setUp()
 	options.addArguments("--remote-allow-origins=*");
 	WebDriverManager.chromedriver().setup();
 	driver = new ChromeDriver(options);
+	sa = new SoftAssert();
 }
 
 @Test
@@ -31,12 +34,13 @@ public void login()
 	driver.findElement(By.name("uid")).sendKeys("mngr511671");
 	driver.findElement(By.name("password")).sendKeys("suryran");
 	driver.findElement(By.name("btnLogin")).click();
+	sa.assertEquals(driver.findElement(By.xpath("//tr[@class='heading3']/td")).getText(), "Manger Id : mngr511671"); //validate login
 }
 
 @AfterTest
 public void tearDown()
 {
-	driver.close();
+	sa.assertAll();
 	driver.quit();
 }
 }
