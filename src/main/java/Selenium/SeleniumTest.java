@@ -27,7 +27,7 @@ public void setUp()
 	sa = new SoftAssert();
 }
 
-@Test
+@Test (priority = 1)
 public void login()
 {
 	driver.get("https://demo.guru99.com/v4/");
@@ -37,6 +37,16 @@ public void login()
 	sa.assertEquals(driver.findElement(By.xpath("//tr[@class='heading3']/td")).getText(), "Manger Id : mngr511671"); //validate login
 }
 
+@Test (priority = 2)
+public void invalid_login()
+{
+	driver.get("https://demo.guru99.com/v4/");
+	driver.findElement(By.name("uid")).sendKeys("mngr511671");
+	driver.findElement(By.name("password")).sendKeys("suryrann");  //invalid password
+	driver.findElement(By.name("btnLogin")).click();
+	sa.assertEquals(driver.switchTo().alert().getText(), "User or Password is not valid");
+
+}
 @AfterTest
 public void tearDown()
 {
